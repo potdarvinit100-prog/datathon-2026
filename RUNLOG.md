@@ -1,0 +1,17 @@
+# 2026-10-16 Datathon Run Log
+- 09:32 Recon: ElectroDNA EV Battery Challenge; targets RUL_cycles_to_80pct + SOH_pct; metric 0.5*(MAE_RUL/5000)+0.5*(MAE_SOH/30.04); deadline 16:00 IST; 15 subs/day.
+- Team renamed "Vinit" -> "Super intelligence" (captain: Vinit).
+- EDA: train 189k x 77, test 60k x 75, no missing/dupes. BatteryID: 189 train / 30 test, ZERO overlap -> GroupKFold by BatteryID.
+- Baseline 5-fold killed (slow). Fast baseline: GroupShuffleSplit 30 batteries holdout, LGBM MAE.
+- VALID: 0.01542 (RUL_MAE 146.7, SOH_MAE 0.045). RUL best_iter=112, SOH best_iter=1497.
+- SUBMISSION 1 (10:12 IST): sub_fast_lgb.csv -> public score 0.0129354. Beats Neural_Ninjas 0.0134876. 15 subs remaining shown.
+- SUBMISSION 2 (11:00 IST): sub_v3.csv -> public 0.0126119 (valid was 0.01499). Progress: 0.0129354 -> 0.0126119.
+- V4 killed (too slow, CatBoost bottleneck). V5 training: physics rul_ratio feature + LGBM/XGB.
+- SUBMISSION 3 (11:24 IST): sub_v5.csv -> public 0.0125535 (valid 0.01485). Progress: 0.0129354 -> 0.0126119 -> 0.0125535.
+- V6 training: anti-overfit (strong regularization).
+- SUBMISSION 4 (11:31 IST): sub_ens35.csv (V3+V5 avg) -> public 0.0125096. NEW BEST. Progress: 0.0129354 -> 0.0126119 -> 0.0125535 -> 0.0125096.
+- SUBMISSION 5 (12:17 IST): Vinit's submission.csv -> public 0.0097296!!! NEW BEST BY FAR. Beats Broskies (0.01118). 1ST PLACE!
+- SELECTION (12:45 IST): 3/3 selected for final: submission.csv (0.00973), sub_ens35.csv (0.01251), sub_v5.csv (0.01255).
+- Team merged: Vinit + Sahil (sahilsah156646) now on "Super intelligence".
+- V12 (3-fold ensemble): RUL MAE 144.4/163.5/140.7 (avg ~150). Worse than Vinit's 0.00973. Not submitted.
+- CONCLUSION: Vinit's 0.00973 (RUL ~94) is the best. My models plateau at RUL ~144. Cannot beat it.
